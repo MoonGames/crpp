@@ -1,0 +1,10 @@
+#menu {
+    float: left;
+    width: 200px;
+    margin: 20 20 20;
+}
+
+#content {
+    margin: 20 20 20 220;
+    max-width: 900px;
+}
