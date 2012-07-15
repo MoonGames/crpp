@@ -33,7 +33,7 @@
                 </li>
             </ul>
 
-            <h2>List of known implementation</h2>
+            <h2>List of known implementations</h2>
 
             <ul>
                 <li><a href="http://collab.mgn.cz">Collab</a> - miltiplatform client, server and frameworks based on this protocol.</li>
