@@ -11,29 +11,29 @@
         <div id="content">
             <h1>CRPP - Collaborative raster painting protocol</h1>
 
-            <p>CRPP je síťový protokol pro sdílené (rastrové) kreslení mezi mnoha uživately v reálném čase.</p>
+            <p>CRPP is network protocol for shared raster drawing among many people (users) in real-time. It's means that several people can draw to same canvas in same time.</p>
             
             <h2>Licence</h2>
 
-            <p>Protokol je šířen pod svobodnou licencí, kdokoli ho může svobodně využívat. Viz další odstavec.</p>
+            <p>Protocol is distributed under free/liberal licence. Anybody can use it free. See next paragraph.</p>
 
-            <p>Protokol a jeho dokumentace je šířen pod licencí GNU FDL verze 1.3 nebo novější. Aktuální znění GNU FDL licence najdete na webové adrese <a href="http://www.gnu.org/copyleft/fdl.html">www.gnu.org/copyleft/fdl.html</a>. Veškeré texty tohoto webu jsou šířeny pod toutéž licencí (GNU FLD verze 1.3 nebo novější). Zdrojový kód tohoto webu je šířen pod licencí GNU GPL verze 3, jejíž znění najdete na webové adrese <a href="http://www.gnu.org/copyleft/gpl.html">www.gnu.org/copyleft/gpl.html</a>. Všechny zdrojové soubory jsou volně ke stažení z našeho veřejného GIT repozitáře. Viz sekce versioning (GIT) dále na této stránce.</p>
+            <p>Protocol and his documentation is distributed under licence GNU FDL version 1.3 or greater. Current version of GNU FDL you can find on web address <a href="http://www.gnu.org/copyleft/fdl.html">www.gnu.org/copyleft/fdl.html</a>. All texts of this web is distributed under GNU FDL version 1.3 or greater too. Source code of this web is distributed under licence GNU GPL version 3. Text of licence GNU GPL version 3 is on site <a href="http://www.gnu.org/copyleft/gpl.html">www.gnu.org/copyleft/gpl.html</a>. All source files are free to download from our public GIT repository. See section versioning (GIT) on this page.</p>
 
-            <h2>Náš cíl</h2>
+            <h2>Our goal</h2>
 
             <ul>
-                <li>Navrhnout a zdokumentovat CRPP protokol.</li>
-                <li>Protokol včetně dokumentace šířit pod svobodnou licencí.</li>
-                <li>Protokol by měl splňovat vlastnosti:
+                <li>Design and ducument CRPP protocol.</li>
+                <li>Use liberal/free licence for protocol.</li>
+                <li>Features of protocol:
                     <ul>
-                        <li>jednoduchý a minimalistický</li>
-                        <li>dostatečně obecný</li>
-                        <li>stabilní</li>
+                        <li>simple and minimalistic</li>
+                        <li>general</li>
+                        <li>stable</li>
                     </ul>
                 </li>
             </ul>
 
-            <h2>List of know implementation</h2>
+            <h2>List of known implementation</h2>
 
             <ul>
                 <li><a href="http://collab.mgn.cz">Collab</a> - miltiplatform client, server and frameworks based on this protocol.</li>
