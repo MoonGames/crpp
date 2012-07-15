@@ -11,18 +11,18 @@
         <div id="content">
             <h1>CRPP - Collaborative raster painting protocol</h1>
 
-            <p>CRPP is network protocol for shared raster drawing among many people (users) in real-time. It's means that several people can draw to same canvas in same time.</p>
+            <p>CRPP is network protocol for shared raster drawing among many people (users) in real-time. It means that several people can draw to same canvas in same time.</p>
             
             <h2>Licence</h2>
 
-            <p>Protocol is distributed under free/liberal licence. Anybody can use it free. See next paragraph.</p>
+            <p>Protocol is distributed under free/liberal licence. Anybody can use it for free. See next paragraph.</p>
 
-            <p>Protocol and his documentation is distributed under licence GNU FDL version 1.3 or greater. Current version of GNU FDL you can find on web address <a href="http://www.gnu.org/copyleft/fdl.html">www.gnu.org/copyleft/fdl.html</a>. All texts of this web is distributed under GNU FDL version 1.3 or greater too. Source code of this web is distributed under licence GNU GPL version 3. Text of licence GNU GPL version 3 is on site <a href="http://www.gnu.org/copyleft/gpl.html">www.gnu.org/copyleft/gpl.html</a>. All source files are free to download from our public GIT repository. See section versioning (GIT) on this page.</p>
+            <p>Protocol and his documentation is distributed under licence GNU FDL version 1.3 or greater. Current version of GNU FDL can be found on web address <a href="http://www.gnu.org/copyleft/fdl.html">www.gnu.org/copyleft/fdl.html</a>. All texts of this web are distributed under GNU FDL version 1.3 or greater too. Source code of this web is distributed under licence GNU GPL version 3. Text of licence GNU GPL version 3 is on site <a href="http://www.gnu.org/copyleft/gpl.html">www.gnu.org/copyleft/gpl.html</a>. All source files are free to download from our public GIT repository. See section versioning (GIT) on this page.</p>
 
             <h2>Our goal</h2>
 
             <ul>
-                <li>Design and ducument CRPP protocol.</li>
+                <li>Design and document CRPP protocol.</li>
                 <li>Use liberal/free licence for protocol.</li>
                 <li>Features of protocol:
                     <ul>
