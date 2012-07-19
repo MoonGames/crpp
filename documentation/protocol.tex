@@ -118,7 +118,7 @@ Spodní vrstva se stará o spojení, jeho udržování, obnovování a fyzickou 
 
 \subsection{Vrchní vrstva}
 
-Vrchní vrstva monolitické bloky dat zpracovává. V kontextu vrchní vrstvy (vrstvy CRPP) se monolitické bloky dat označují jako ``message". Každá message je ucelený soubor dat (posloupnost bytů) který je možné jednotlivě zpracovat. Datová struktura a způsob zpracování message je popsáno v části \ref{text.collab_message}.
+Vrchní vrstva monolitické bloky dat zpracovává. V kontextu vrchní vrstvy (vrstvy CRPP) se monolitické bloky dat označují jako ``message". Každá message je ucelený soubor dat (posloupnost bytů), který je možné jednotlivě zpracovat. Datová struktura a způsob zpracování message je popsáno v části \ref{text.collab_message}.
 
 \chapter{CRPP-binary}
 \label{chapter.crpp-binary}
@@ -133,7 +133,7 @@ Vrchní vrstva monolitické bloky dat zpracovává. V kontextu vrchní vrstvy (v
 \chapter{Collab message}
 \label{text.collab_message}
 
-CRPP message je posloupnost bytů, která nese informaci o své délce, příkazu a přídavná data (parametry).
+CRPP message je posloupnost bytů. Každá message má význam příkazu (požadavku na vykonání nějaké funkce) a může obsahovat parametry.
 
 \section{Data types}
 
@@ -163,7 +163,7 @@ Hodnotu promměné $b$ určuje vzorec \ref{equation.unsigned-integers-sum} při�
 
 \subsection{Reálná čísla}
 
-Reálná čísla jsou reprezentována podle standardu IEEE 754.
+Reálná čísla jsou reprezentována podle standardu IEEE 754 ve 32 bitech.
 
 \subsection{Logická hodnota} 
 
@@ -171,13 +171,13 @@ Logické hodnoty (boolean) jsou reprezentovány jedním bytem, kde samé nuly ($
 
 \subsection{Řetězce}
 
-Veškerý text (řetězce zanků) je kódován jako UTF-8. V některých případech jako posloupnost ASCII znaků, to je ovšem vždy uvedeno.
+Veškerý text (řetězce zanků) je kódován jako UTF-8. V některých případech jako posloupnost ASCII znaků, to je ovšem vždy uvedeno. Všude je rozlišováno mezi malými a velkými písmeny (case sensitive).
 
 \section{Message}
 
-%TODO:
+Message se skládá ze dvou částí: jejím příkazem a přídavnými daty (blocks). Příkaz reprezentují 4 ASCII znaky (4 byty). Bloky nemusí message obsahovat vůbec a může jich být neomezené množství. Jejich struktura je popsána v části \ref{text.collab_message.block}.
 
-Obsah zprávy je také ilustrován diagramem \ref{picture.message_structure}.
+Obsah message je také ilustrován diagramem \ref{picture.message_structure}.
 
 \begin{figure}[h]
   \centering
@@ -189,30 +189,30 @@ Obsah zprávy je také ilustrován diagramem \ref{picture.message_structure}.
 \section{Block}
 \label{text.collab_message.block}
 
-Blok se dělí na tři části v následujícím pořadí.
+Block se dělí na tři části:
 
 \begin{enumerate}
-	\item block type (1\,{}B)
-	\item block length (2\,{}B)
+	\item block name (4\,{}B)
+	\item block length (4\,{}B)
 	\item block data (block length\,{}B)
 \end{enumerate}
 
-Block type identifikuje blok, je to jednobytové neznaménkové číslo.
+První část jsou 4 ASCII znaky (4 byty), které jednoznačně identifikují block. Následující 4 byty udávají jako neznaménkové celé číslo délku dat ($n$). Dalších $n$ bytů jsou data bloku. Data jsou interpretování různě podle toho v jakém příkazu je block obsažen a v jakém blocku jsou obsaženy data.
 
-Block length udává délku dat bloku (nezahrnuje první dvě části bloku). Je to dvoubajtové neznaménkové číslo.
-
-Block data obsahuje data bloku.
+V části \ref{text.commands} jsou popsány jednotlivé commands, jejich blocks (parametry), význam a způsob zpracování.
 
 \chapter{Commands}
+\label{text.commands}
 
-Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (klienti je posílají na server) a obousměrné.
+Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (klienti je posílají na server) a obousměrné (posílají se na server i na klienta).
 
-Seznam příkazů a jejich číselných hodnot:
+Seznam příkazů:
 
 \begin{itemize}
-	\item Paint: 1
-	\item Layers order: 12
-	\item Add layer: 11
+	\item PANT -- paint
+	\item LORD -- layers order
+	\item ADDL -- add layer
+	\item LNAM -- set layer name
 \end{itemize}
 
 \section{Příchozí}
@@ -224,18 +224,27 @@ Seznam příkazů a jejich číselných hodnot:
 Přidá vrstvu do plátna. Obsahuje tyto bloky:
 
 \begin{itemize}
-	\item Layer position: 1
-	\item Layer name: 2
-	\item Canvas ID: 3
+	\item LPOS -- layer position
+	\item LNAM -- layer name
+	\item CNID -- canvas ID
 \end{itemize}
 
+\subsubsection{Server action}
+
+Server vytvoří novou prázdnou vrstvu a zařadí jí do správné pozice. Poté odešle všem připojeným klientům nové layers order a pak name of this layer (set layer name).
+
+\subsubsection{Blocks}
+
 \paragraph{Layer position}
-Obsahuje celočíselné čtyřbytové bezznaménkové číslo, které udává kolikátá v pořadí bude vrstva od spoda po přidání. Vrstva na pozici $0$ bude pod všemi ostatními.
+
+Obsahuje celočíselné čtyřbytové bezznaménkové číslo, které udává kolikátá v pořadí bude vrstva od spoda po přidání. Vrstva na pozici $0$ bude pod všemi ostatními. V případě, že je číslo větší než počet všech vrstev, bude vrstva přidána na vrch.
 
 \paragraph{Layer name}
+
 Obsahuje text s názvem vrstvy.
 
 \paragraph{Canvas ID}
+
 Obsahuje celočíslené bezznaménkové čtyřbytové číslo s ID plátna, do kterého má být vrstva přidána.
 
 \section{Obousměrné}
@@ -245,14 +254,20 @@ Obsahuje celočíslené bezznaménkové čtyřbytové číslo s ID plátna, do k
 Tento příkaz informuje o aktualizaci kreslícího plátna. Obsahuje tyto bloky:
 
 \begin{itemize}
-	\item Update type: 1
-	\item Update ID: 2
-	\item Layer ID: 3
-	\item Canvas ID: 4
-	\item X coordinate: 5
-	\item Y coordinate: 6
-	\item Update image data: 7						
+	\item UDTY -- update type
+	\item UDID -- update ID
+	\item LYID -- layer ID
+	\item CNID -- canvas ID
+	\item XCOR -- X coordinate
+	\item YCOR -- Y coordinate
+	\item UIMG -- update image data				
 \end{itemize}
+
+\subsubsection{Server action}
+
+Server zakreslí update na příslušné místo a podé rozešle the same update (paint) to all connected users.
+
+\subsubsection{Blocks}
 
 \paragraph{Update type}
 Update type je typ updatu a obsahuje čtyřbytové neznaménkové celočíselné číslo udávající typ updatu. Může nabívat hodnot $0$ a $1$, kde $0$ reprezentuje přidávácí update a $1$ mazací.
