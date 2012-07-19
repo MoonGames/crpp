@@ -12,7 +12,8 @@
             <?php
             $items = array(
                 "about" => "about",
-                "mailing_list" => "mailing list"
+                "mailing_list" => "mailing list",
+                "credits" => "credits"
             );
             ?>
 
