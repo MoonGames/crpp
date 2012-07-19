@@ -142,14 +142,14 @@ Pokud není uvedeno jinak, tak všechny celočíselné hodnoty jsou bezeznaménk
 \subsection{Unsigned integers}
 \label{subsection.unsigned-integers}
 
-Každý bit s hodnotou $1$ reprezentuje číslo $2^{p}$. Kde $p$ je pozice bitu (poslední bit -- v textu nejpravější -- posloupnosti má pozici $0$). Bity s hodnotou $0$ jsou rovny $0$.
+Každý bit s hodnotou $1$ reprezentuje číslo $2^{p}$. Kde $p$ je pozice bitu (poslední bit -- v textu nejpravější -- posloupnosti má pozici $0$). Bity s hodnotou $0$ jsou rovny $0$. Rovnice \ref{equation.unsigned-integers-sum} udává hodnotu čísla.
 
 \begin{equation}
 \label{equation.unsigned-integers-sum}
 \sum_{p = 0}^{n - 1} b_p 2^p
 \end{equation}
 
-$p$ je pozice bitu (poslední ma hodnotu 0, pak roste směrem k předcházejícím), $n$ je celkový počet bitů reprezentujících číslo, $b$ je hodnota bitu ($0$ nebo $1$).
+kde $p$ je pozice bitu (poslední ma hodnotu $0$, pak roste směrem k předcházejícím), $n$ je celkový počet bitů reprezentujících číslo, $b_p$ je hodnota bitu ($0$ nebo $1$) na pozici $p$.
 
 Například posloupnost $00001010$ má hodnotu $10$ ($2^1 + 2^3$).
 
@@ -157,9 +157,11 @@ Například posloupnost $00001010$ má hodnotu $10$ ($2^1 + 2^3$).
 
 Hodnota znaménkového celého čísla je součet čísel $a$ a $b$ (tedy ${value} = a + b$). 
 
-Hodnotu proměnné $a$ uručje vzorec $a = -2^{n - 1}$, kde $n$ je počet bitů reprezentujících číslo.
+Hodnotu proměnné $a$ uručje vzorec $a = -2^{n - 1} \cdot f$, kde $n$ je počet bitů reprezentujících číslo a $f$ první bit ($0$ or $1$).
 
-Hodnotu promměné $b$ určuje vzorec \ref{equation.unsigned-integers-sum} přičemž první bit není do vzorce vložen. Například posloupnost $10011$ by měla hodnotu $b = 2^0 + 2^1$ (není zahrnut první bit $1$). 
+Hodnotu promměné $b$ určuje vzorec \ref{equation.unsigned-integers-sum} přičemž první bit není do vzorce vložen. Například posloupnost $10011$ by měla hodnotu $b = 2^0 + 2^1$ (není zahrnut první bit $1$).
+
+Příklad: číslo reprezentované bity $1011$ má hodnotu $-5$ ($a = -2^3 \cdot 1 = -8$, $b = 2^1 + 2^0 = 3$, $a + b = -8 + 3 = -5$).
 
 \subsection{Reálná čísla}
 
@@ -203,6 +205,26 @@ V části \ref{text.commands} jsou popsány jednotlivé commands, jejich blocks 
 
 \chapter{Commands}
 \label{text.commands}
+
+Tato kapitola popisuje jednotlivé příkazy, které mohou být jako message posílány, jejich strukturu, způsob zpracování a smysl.
+
+K definování jednotlivých příkazů je nejprve potřeba pospsat obecné chování serveru. Server sdružuje všechny clients, kteří spolu mohou potenciálně komunikovat. Client se po připojení defaultně nenechází v žádmém roomu, do kterého se však může připojit. Každý client se může připojit do room, odpojit z něj a následně opět připojit do jiného. Žádný client se nemůže nacházet ve více než jednom room, tedy počet rooms ve kterých se client nachází je $0$, nebo $1$. Room může client i vytvořit. Nemůže existovat žádný prázdný room (bez clients), pokud odejdou všichni clients z room, room se zruší. Standartní chování serveru je, že po vytvoření room zakládajícího client připojí do tohoto room. Zakládající client může room opustit a room zůstane zachován v případě, že se v něm nachází alespon jeden další client. See image \ref{picture.server_client_rooms}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.80\textwidth]{diagrams/server_client_rooms.png}
+  \caption{Clients, server and rooms}
+  \label{picture.server_client_rooms}
+\end{figure}
+
+Každá room může obsahovat $0$ až $2^{32}$ (adresování 4 byty) canvases a každá canvas se skládá z $0$ až $2^{32}$ layers. Pořadí layer začíná $0$ a končí $p - 1$, kde $p$ je celkový počet layers. Při vykreslování se první kreslí layer s order $0$, tedy čím větší má layer order, tím později je vykreslena. Strukturu room ilustruje obrázek \ref{picture.room}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.80\textwidth]{diagrams/room.png}
+  \caption{Room}
+  \label{picture.room}
+\end{figure}
 
 Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (klienti je posílají na server) a obousměrné (posílají se na server i na klienta).
 
@@ -292,6 +314,6 @@ Obsahuje čtyřbytové neznaménkové celé číslo, které udává X souřadnic
 Obsahuje čtyřbytové neznaménkové celé číslo, které udává Y souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
 
 \paragraph{Update image data}
-Obsahuje binární data PNG obrázku typu ABGR. Viz http://www.w3.org/Graphics/PNG/. 
+Obsahuje binární data PNG obrázku typu RGBA (32 bites). Viz http://www.w3.org/Graphics/PNG/. 
 
 \end{document}
