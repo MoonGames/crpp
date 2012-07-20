@@ -52,3 +52,10 @@ Logické hodnoty (boolean) jsou reprezentovány jedním bytem, kde samé nuly ($
 \section{Strings}
 
 Veškerý text (řetězce zanků) je kódován jako UTF-8. V některých případech jako posloupnost ASCII znaků, to je ovšem vždy uvedeno. Všude je rozlišováno mezi malými a velkými písmeny (case sensitive).
+
+\section{Image}
+\label{connection.data_types.image}
+
+Binární data PNG obrázku, viz http://www.w3.org/Graphics/PNG/. PNG obrázek je specifikován standardem ISO/IEC 15948:2003 (E), viz http://www.w3.org/TR/PNG/.
+
+Obrázek je vždy PNG se čtyřmi kanály ARGB (alpha, red, green, blue) a osmibitovou hloubkou na kanál (takže 32 bitů na pixel).

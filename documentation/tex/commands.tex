@@ -62,7 +62,7 @@ Tento příkaz informuje o aktualizaci kreslícího plátna. Obsahuje tyto bloky
 	\item CNID -- canvas ID
 	\item XCOR -- X coordinate
 	\item YCOR -- Y coordinate
-	\item UIMG -- update image data				
+	\item UIMG -- update image				
 \end{itemize}
 
 \subsubsection{Server action}
@@ -91,7 +91,9 @@ Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje updatov
 Obsahuje čtyřbytové neznaménkové celé číslo, které udává X souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
 
 \paragraph{Y coordinate}
+
 Obsahuje čtyřbytové neznaménkové celé číslo, které udává Y souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
 
-\paragraph{Update image data}
-Obsahuje binární data PNG obrázku typu RGBA (32 bites). Viz http://www.w3.org/Graphics/PNG/. 
+\paragraph{Update image}
+
+Viz část specifikaci \ref{connection.data_types.image}.
