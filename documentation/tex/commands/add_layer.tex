@@ -1,0 +1,27 @@
+\section{Add layer}
+
+Přidá vrstvu do plátna. Obsahuje tyto bloky:
+
+\begin{itemize}
+	\item LPOS -- layer position
+	\item LNAM -- layer name
+	\item CNID -- canvas ID
+\end{itemize}
+
+\subsubsection{Server action}
+
+Server vytvoří novou prázdnou vrstvu a zařadí jí do správné pozice. Poté odešle všem připojeným klientům nové layers order a pak name of this layer (set layer name).
+
+\subsubsection{Blocks}
+
+\paragraph{Layer position}
+
+Obsahuje celočíselné čtyřbytové bezznaménkové číslo, které udává kolikátá v pořadí bude vrstva od spoda po přidání. Vrstva na pozici $0$ bude pod všemi ostatními. V případě, že je číslo větší než počet všech vrstev, bude vrstva přidána na vrch.
+
+\paragraph{Layer name}
+
+Obsahuje text s názvem vrstvy.
+
+\paragraph{Canvas ID}
+
+Obsahuje celočíslené bezznaménkové čtyřbytové číslo s ID plátna, do kterého má být vrstva přidána.

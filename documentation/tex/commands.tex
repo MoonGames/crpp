@@ -1,99 +1,62 @@
 \part{Commands}
 \label{commands}
 
-\chapter{Commands}
-\label{text.commands}
-
 Tato kapitola popisuje jednotlivé příkazy, které mohou být jako message posílány, jejich strukturu, způsob zpracování a smysl.
 
-Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (klienti je posílají na server) a obousměrné (posílají se na server i na klienta).
+Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (klienti je posílají na server) a obousměrné (posílají se na server i na klienta). V části \ref{commands.list_of_commands} je seznam všech příkazů se stručným popisem a v další části je podrobně popsán jednotlivě každý příkaz.
 
-Seznam příkazů:
+\chapter{List of commands}
+\label{commands.list_of_commands}
+
+\section{Outgoing commands}
 
 \begin{itemize}
-	\item PANT -- paint
+    % connection
+    \item GCIN -- get connection info -- žádost o informaci o připojení (jestli je klient nebo není autentizován)
+    \item AUTN -- autenticate -- autentikuje klienta
+    % rooms, etc
+    \item GRLI -- get rooms list -- žádost o seznam místností na serveru
+    \item CROM -- create room -- žádost o vytvoření místnosti
+    \item JROM -- join to room outgoing -- žádost o připojení do místnosti
+    \item DROM -- disconnect from room outgoing -- žádost o odpojení z místnosti
+    % other services
+	\item HTIM -- make HTTP image -- žádost o HTTP obrázek
+	\item CHAT -- chat message outgoing -- odešle chat zprávu
+\end{itemize}
+
+\section{Incomming commands}
+
+\begin{itemize}
+    % connection
+    \item SINF -- server info -- základní informace o připojení, včetně případného vyžádání autentikace
+    \item CINF -- connection info -- informace o stavu připojení (jestli je nebo není uživatel autentizován)
+    \item SSUC -- client successfully connected -- informace, že byl klient úspěšně připojen
+    \item SERR -- client unsuccessfully connected -- informace, že klient nebyl úspěšně připojen
+    % rooms, etc
+    \item RLIS -- rooms list -- seznam místností na serveru
+    \item JROM -- join to room incomming -- byl jsi připojen do místnosti
+    \item DROM -- disconnect from room incomming -- byl jsi odpojen zmístnosti
+    \item ULIS -- users list -- seznam uživatelů v místnosti
+    % in room painting
 	\item LORD -- layers order
-	\item ADDL -- add layer
+	% other services
+	\item CHAT -- chat message incomming -- přišla chat zpráva
+\end{itemize}
+
+\section{Duplex commands}
+
+\begin{itemize}
+    % user
+    \item SNIC -- set nick -- nastaví nick uživately
+
+	\item PANT -- paint -- informuje o novém zakreslení/mazání ve vrstvě 
 	\item LNAM -- set layer name
 \end{itemize}
 
-\section{Příchozí}
 
-\section{Odchozí}
 
-\subsection{Add layer}
 
-Přidá vrstvu do plátna. Obsahuje tyto bloky:
+\input{tex/commands/template}
 
-\begin{itemize}
-	\item LPOS -- layer position
-	\item LNAM -- layer name
-	\item CNID -- canvas ID
-\end{itemize}
-
-\subsubsection{Server action}
-
-Server vytvoří novou prázdnou vrstvu a zařadí jí do správné pozice. Poté odešle všem připojeným klientům nové layers order a pak name of this layer (set layer name).
-
-\subsubsection{Blocks}
-
-\paragraph{Layer position}
-
-Obsahuje celočíselné čtyřbytové bezznaménkové číslo, které udává kolikátá v pořadí bude vrstva od spoda po přidání. Vrstva na pozici $0$ bude pod všemi ostatními. V případě, že je číslo větší než počet všech vrstev, bude vrstva přidána na vrch.
-
-\paragraph{Layer name}
-
-Obsahuje text s názvem vrstvy.
-
-\paragraph{Canvas ID}
-
-Obsahuje celočíslené bezznaménkové čtyřbytové číslo s ID plátna, do kterého má být vrstva přidána.
-
-\section{Obousměrné}
-
-\subsection{Paint}
-
-Tento příkaz informuje o aktualizaci kreslícího plátna. Obsahuje tyto bloky:
-
-\begin{itemize}
-	\item UDTY -- update type
-	\item UDID -- update ID
-	\item LYID -- layer ID
-	\item CNID -- canvas ID
-	\item XCOR -- X coordinate
-	\item YCOR -- Y coordinate
-	\item UIMG -- update image				
-\end{itemize}
-
-\subsubsection{Server action}
-
-Server zakreslí update na příslušné místo a podé rozešle the same update (paint) to all connected users.
-
-\subsubsection{Blocks}
-
-\paragraph{Update type}
-Update type je typ updatu a obsahuje čtyřbytové neznaménkové celočíselné číslo udávající typ updatu. Může nabívat hodnot $0$ a $1$, kde $0$ reprezentuje přidávácí update a $1$ mazací.
-
-V případě přidávacího updatu se standartním (source over) algoritmem update nakreslí přes obrázek vrstvy. 
-
-V případě odebíracího updatu se jen mění velikost alpha kanálu jednotlivých pixelů updatované vrstvy. Výsledná alpha každého pixelu $D_{a}$ se spočítá jako $D_{a} = S_{a} \cdot P_{a}$ kde $S_{a}$ značí alphu pixelu v updatovacím obrázku a $P_{a}$ značí alphu v v obrázku vrstvy před updatem. Všechny alphy ve výpočtu nabívají hodnot $0$ až $1$, takže je před výpočtem potřeba je převést ze standartní podoby $0$ až $255$ na tyto dělením číslem $255$ a po výpočtu převést zpátky násobením.
-
-\paragraph{Update ID}
-Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje tento update.
-
-\paragraph{Layer ID}
-Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje updatovanou vrstvu.
-
-\paragraph{Canvas ID}
-Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje updatované kreslící plátno (je tak možné kreslit na několik pláten).
-
-\paragraph{X coordinate}
-Obsahuje čtyřbytové neznaménkové celé číslo, které udává X souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
-
-\paragraph{Y coordinate}
-
-Obsahuje čtyřbytové neznaménkové celé číslo, které udává Y souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
-
-\paragraph{Update image}
-
-Viz část specifikaci \ref{connection.data_types.image}.
+\input{tex/commands/paint}
+\input{tex/commands/add_layer}

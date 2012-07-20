@@ -1,0 +1,55 @@
+\chapter{Paint}
+
+Tento příkaz informuje o aktualizaci kreslícího plátna. 
+
+\subsection{List of parameters}
+
+\begin{itemize}
+	\item UDTY -- update type
+	\item UDID -- update ID
+	\item LYID -- layer ID
+	\item CNID -- canvas ID
+	\item XCOR -- X coordinate
+	\item YCOR -- Y coordinate
+	\item UIMG -- update image				
+\end{itemize}
+
+\subsection{Server action}
+
+Server zakreslí update na příslušné místo a podé rozešle the same update (paint) to all connected users.
+
+\subsection{Client action}
+
+\subsection{Detailed description of parameters}
+
+\subsubsection{Update type}
+
+Update type je typ updatu a obsahuje čtyřbytové neznaménkové celočíselné číslo udávající typ updatu. Může nabívat hodnot $0$ a $1$, kde $0$ reprezentuje přidávácí update a $1$ mazací.
+
+V případě přidávacího updatu se standartním (source over) algoritmem update nakreslí přes obrázek vrstvy. 
+
+V případě odebíracího updatu se jen mění velikost alpha kanálu jednotlivých pixelů updatované vrstvy. Výsledná alpha každého pixelu $D_{a}$ se spočítá jako $D_{a} = S_{a} \cdot P_{a}$ kde $S_{a}$ značí alphu pixelu v updatovacím obrázku a $P_{a}$ značí alphu v v obrázku vrstvy před updatem. Všechny alphy ve výpočtu nabívají hodnot $0$ až $1$, takže je před výpočtem potřeba je převést ze standartní podoby $0$ až $255$ na tyto dělením číslem $255$ a po výpočtu převést zpátky násobením.
+
+\subsubsection{Update ID}
+
+Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje tento update.
+
+\subsubsection{Layer ID}
+
+Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje updatovanou vrstvu.
+
+\subsubsection{Canvas ID}
+
+Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje updatované kreslící plátno (je tak možné kreslit na několik pláten).
+
+\subsubsection{X coordinate}
+
+Obsahuje čtyřbytové neznaménkové celé číslo, které udává X souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
+
+\subsubsection{Y coordinate}
+
+Obsahuje čtyřbytové neznaménkové celé číslo, které udává Y souřadnici levého horního rohu updatu (kam se aplikuje updatovací obrázek).
+
+\subsubsection{Update image}
+
+Viz část specifikaci \ref{connection.data_types.image}.
