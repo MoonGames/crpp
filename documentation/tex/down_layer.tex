@@ -17,6 +17,8 @@ Veškerý úkol spodní vrstvy je brát posloupnosti bytů a ty doručovat na dr
 \chapter{CRPP-binary}
 \label{down_layer.crpp-binary}
 
+Fyzické spojení protokolu CRPP-binary je zprostředkováno pomocí protokolu \emph{TCP/IP}.
+
 CRPP-binary je jednoduchý protokol, který umožnuje balit a odesílat data z vrchní vrstvy. Data z vrchní vrstvy se zabalí do packů a ty se na druhé straně opět rozbalují. Strukturu packu ilustruje obrázek \ref{down_layer.pictures.CRPP-binary}.
 
 \begin{figure}[h]
@@ -28,7 +30,7 @@ CRPP-binary je jednoduchý protokol, který umožnuje balit a odesílat data z v
 
 Pack se dělí na tři části, první dvě obsahuje hlavička packu a mají konstatní velikost. Třetí část obsahuje data packu. 
 
-První čtyři byty packu obsahují ID packu, které by se mělo inkrementálně zvětšovat. ID je uvedeno jako bezznaménkové celé číslo, které je pospáno v části \ref{connection.data_types.unsigned_integer}.
+První čtyři byty packu obsahují ID packu, které by se mělo inkrementálně zvětšovat a to zvlášť u každého spojení každým směrem. Takže například spojení klienta A se serverem směrem od klienta A k serveru počítá zvlášť než směr od serveru ke klientovi A. ID je uvedeno jako bezznaménkové celé číslo, které je pospáno v části \ref{connection.data_types.unsigned_integer}.
 
 Další čtyři byty (tedy pátý až osmý v pořadí) udávají celkovou délku přenášených dat bez hlavičky. Číslo je udáno opět podle specifikace v části \ref{connection.data_types.unsigned_integer}.
 

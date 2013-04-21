@@ -1,17 +1,17 @@
-\part{Server}
+\chapter{Server}
 \label{server}
 
-Server sdružuje všechny klienty, kteří se na něj připojí a umožnuje případnou vzájemnou komunikaci. Server může po připojení vyžadovat autentikaci uživatele pomocí jména a hesla.
+Server associate all connected clients and it is enabling mutual communication. Server is able to request authentication by name and password or by token.
 
-\chapter{Client}
+\section{Client}
 
-Každý připojený fyzický klient má na serveru svou virtuální reprezentaci. Je reprezentován pomocí unikátního ID v rozmezí $0$ až $2^{32} - 1$ a svého uživatelského jména. Uživatelské jméno může být na serveru dupliciní, záleží na implementaci serveru, jestli tuto možnost spřístupnuje.
+Each connected client is virtually represented on server by unique ID on interval $0$ to $2^{32} - 1$ and it's user name (nick). User name can be duplicate on server (only ID has to be unique).
 
-\chapter{Rooms}
+\section{Rooms}
 
-Na serveru se nacházejí místnosti, v rámci nichž mezi sebou uživatelé komunikují. Na serveru nemusí být žádná a nebo až $2^{32}$ místností (4 bytové ID). Místnosti mají své ID a jméno. Místnost může být otevřená všem, nebo zamčená heslem.
+Server contains rooms, this rooms cam be used to mutual communication among joined users. Server is able to maintain zero to $2^{32}$ rooms (limitation of 4 bytes length ID). Each room has own ID and name. Room can be opened or locked by password.
 
-Klienti spolu na serveru mohou komunikovat jen v případě, že se naházejí ve stejné místnosti. Každý klient se po připojení nenachází v žádné místnosti, do té se však může následně připojit. Klient se může do místností připojovat jen v případě, že se nenachází v žádné jiné. Logický důsledek je, že se klient může nacházet jen v jedné místnosti v jeden okamžik. Klienti se mohou do místností připojovat, odpojovat a místnosti vytvářet. V případě, že klient vytvoří novou místnost je do ní automaticky připojen. Místnost existuje jen po dobu co se v ní nachází alespon jeden klient, prázdné místnosti jsou automaticky mazány. Místnosti na serveru ilustruje obrázek \ref{server.pictures.server_client_rooms}.
+Clients can communicate together just in case that there are in same room. Every client is outside of all rooms after connection to server. Single client can be only in one room simultaneously therefore client can join room just in case that it is not in other room in that time. Clients can joint (connect to), leave and create rooms. When client create new room it is automatically connected to this new room. Room exists just if there is at least one client, otherwise room is destroyed. See figure \ref{server.pictures.server_client_rooms} for illustration.
 
 \begin{figure}[h]
   \centering
@@ -20,9 +20,9 @@ Klienti spolu na serveru mohou komunikovat jen v případě, že se naházejí v
   \label{server.pictures.server_client_rooms}
 \end{figure}
 
-\section{Canvases and layers}
+\subsection{Canvases and layers}
 
-Hlavním cílem protokolu je umožnit uživatlům sdílené kreslení. To je zajištováno v rámci místností pomocí jednotlivých plánek a vrstev. V rámci místnosti může existovat několik pláten (samostatných obrázků) v nichž jsou vrstvy (které se překrývají) do nichž klienti kreslí. Strukturu místnosti ilustruje obrázek \ref{server.pictures.room}.
+The main target of the protocol is shared drawing. It is maintained (in rooms) by canvases and layers. Each room can contain several canvases and each canvas can contain layers. Canvas is composed by layers which user can draw into. Structure of room is illustrated by figure \ref{server.pictures.room}.
 
 \begin{figure}[h]
   \centering
@@ -31,16 +31,20 @@ Hlavním cílem protokolu je umožnit uživatlům sdílené kreslení. To je zaj
   \label{server.pictures.room}
 \end{figure}
 
-Všechny plátna mají své rozměry (v pixelech), jméno a ID. Server se nestará o pořadí pláten, je plně na klientovy jakým způsobem je zobrazuje. Dále obsahují vrstvy a poskytují jejich pořadí.
+Every canvas has own dimension (in pixels), name and ID. There is no specified order of canvases it is depends just on client. Layers have particular order specified by server.
 
-Každá místnost může obsahovat $0$ až $2^{32}$ (4 bytové ID) pláten a každé plátno se skládá z z $0$ až $2^{32}$ vrstev.
+Room can contain $0$ to $2^{32}$ (4 bytes ID) canvases and canvas is composed of $0$ to $2^{32}$ layers.
 
-Plátno má své ID, pořadí a vlastní obsah (obrázek s $32$ bitovou hloubkou -- 1\,{}B je vyhrazen jako alpha channel).
+Canvas has owns ID, order.
 
-Pořadí vrstev začíná číslem $0$ a končí $p - 1$, kde $p$ je celkový počet vrstev. Při vykreslování se nejvíce dospod (takže jako první) kreslí vrstva s pořadím $0$. Takže čím větší má vrstva pořadí, tím více navrchu je vykreslena. Viz obrázek \ref{server.pictures.room}.
+Layer is picture with $32$ bits color depth -- 1\,{}B is used for alpha channel (opacity).
 
-\section{Chat}
+Order of layers starts with $0$ and ends with $p - 1$ where $p$ is count of layers in canvas. Layer with order $0$ is under all other layers, controversially layer with list $p - 1$ is painted over rest of layers. General rule is that order is number of layers painted under this particular layer. See figure \ref{server.pictures.room}.
 
-\section{Another services}
+\subsection{Chat}
+
+Chat is cherished inside of rooms.  Clients outside of all rooms can't chat with anybody!
+
+\subsection{Another services}
 
 
