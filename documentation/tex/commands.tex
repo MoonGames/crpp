@@ -17,11 +17,18 @@ Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (kl
     % rooms, etc
     \item GRLI -- get rooms list -- žádost o seznam místností na serveru
     \item CROM -- create room -- žádost o vytvoření místnosti
-    \item JROM -- join to room outgoing -- žádost o připojení do místnosti
-    \item DROM -- disconnect from room outgoing -- žádost o odpojení z místnosti
+    \item OJRO -- join to room outgoing -- žádost o připojení do místnosti
+    \item ODRO -- disconnect from room outgoing -- žádost o odpojení z místnosti
+    % layers
+    \item ALAY -- add layer
+    \item RLAY -- remove layer
+    \item SLAL -- set layer location
+    % canases
+    \item ACAN -- add canvas
+    \item RCAN -- remove canvas
     % other services
 	\item HTIM -- make HTTP image -- žádost o HTTP obrázek
-	\item CHAT -- chat message outgoing -- odešle chat zprávu
+	\item OCHA -- chat message outgoing -- odešle chat zprávu
 \end{itemize}
 
 \section{Incomming commands}
@@ -34,13 +41,14 @@ Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (kl
     \item SERR -- client unsuccessfully connected -- informace, že klient nebyl úspěšně připojen
     % rooms, etc
     \item RLIS -- rooms list -- seznam místností na serveru
-    \item JROM -- join to room incomming -- byl jsi připojen do místnosti
-    \item DROM -- disconnect from room incomming -- byl jsi odpojen zmístnosti
+    \item IJRO -- join to room incomming -- byl jsi připojen do místnosti
+    \item IDRO -- disconnect from room incomming -- byl jsi odpojen zmístnosti
     \item ULIS -- users list -- seznam uživatelů v místnosti
     % in room painting
 	\item LORD -- layers order
+	\item SRES -- set resolution
 	% other services
-	\item CHAT -- chat message incomming -- přišla chat zpráva
+	\item ICHA -- chat message incomming -- přišla chat zpráva
 \end{itemize}
 
 \section{Duplex commands}
@@ -48,9 +56,9 @@ Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (kl
 \begin{itemize}
     % user
     \item SNIC -- set nick -- nastaví nick uživately
-
+    % paint
 	\item PANT -- paint -- informuje o novém zakreslení/mazání ve vrstvě 
-	\item LNAM -- set layer name
+	\item SLAN -- set layer name
 \end{itemize}
 
 
