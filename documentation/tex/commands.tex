@@ -1,9 +1,9 @@
 \part{Commands}
 \label{commands}
 
-Tato kapitola popisuje jednotlivé příkazy, které mohou být jako message posílány, jejich strukturu, způsob zpracování a smysl.
+This chapter describes particular commands, their meaning and structure.
 
-Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (klienti je posílají na server) a obousměrné (posílají se na server i na klienta). V části \ref{commands.list_of_commands} je seznam všech příkazů se stručným popisem a v další části je podrobně popsán jednotlivě každý příkaz.
+Commands are divided to three groups, it is outgoing commands (from client to server), incoming commands (from server to client) and two-way (the same command can be send either from and to server). In \ref{commands.list_of_commands} is list of commands with brief description, detailed description is further.
 
 \chapter{List of commands}
 \label{commands.list_of_commands}
@@ -12,52 +12,52 @@ Příkazy se dělí na příchozí (posílá je server na klienty), odchozí (kl
 
 \begin{itemize}
     % connection
-    \item GCIN -- get connection info -- žádost o informaci o připojení (jestli je klient nebo není autentizován)
-    \item AUTN -- autenticate -- autentikuje klienta
+    \item GCIN -- get connection info -- request for connection info
+    \item AUTN -- authenticate -- authenticates client
     % rooms, etc
-    \item GRLI -- get rooms list -- žádost o seznam místností na serveru
-    \item CROM -- create room -- žádost o vytvoření místnosti
-    \item OJRO -- join to room outgoing -- žádost o připojení do místnosti
-    \item ODRO -- disconnect from room outgoing -- žádost o odpojení z místnosti
+    \item GRLI -- get rooms list -- request for list of rooms on server
+    \item CROM -- create room -- request for new room
+    \item OJRO -- join to room outgoing -- request for connect client to particular room
+    \item ODRO -- disconnect from room outgoing -- request for disconnecting client from room
     % layers
-    \item ALAY -- add layer
-    \item RLAY -- remove layer
-    \item SLAL -- set layer location
+    \item ALAY -- add layer -- request for new layer in a canvas
+    \item RLAY -- remove layer -- request for removing layer
+    \item SLAL -- set layer location -- request for moving layer to another position (affects order of layers)
     % canases
-    \item ACAN -- add canvas
-    \item RCAN -- remove canvas
+    \item ACAN -- add canvas -- request for new canvas in room
+    \item RCAN -- remove canvas -- request for deleting canvas in room
     % other services
-	\item HTIM -- make HTTP image -- žádost o HTTP obrázek
-	\item OCHA -- chat message outgoing -- odešle chat zprávu
+	\item HTIM -- make HTTP image -- request for HTTP accessible snapshot of a canvas
+	\item OCHA -- chat message outgoing -- sends a chat message
 \end{itemize}
 
 \section{Incomming commands}
 
 \begin{itemize}
     % connection
-    \item SINF -- server info -- základní informace o připojení, včetně případného vyžádání autentikace
-    \item CINF -- connection info -- informace o stavu připojení (jestli je nebo není uživatel autentizován)
-    \item SSUC -- client successfully connected -- informace, že byl klient úspěšně připojen
-    \item SERR -- client unsuccessfully connected -- informace, že klient nebyl úspěšně připojen
+    \item SINF -- server info -- informations about server
+    \item CINF -- connection info -- info about connection state
+    \item SSUC -- client connection success -- information that some request affecting connection (e.g. authentication) has been successful
+    \item SERR -- client connection problem -- information about problem with connection (e.g. with authentication)
     % rooms, etc
-    \item RLIS -- rooms list -- seznam místností na serveru
-    \item IJRO -- join to room incomming -- byl jsi připojen do místnosti
-    \item IDRO -- disconnect from room incomming -- byl jsi odpojen zmístnosti
-    \item ULIS -- users list -- seznam uživatelů v místnosti
+    \item RLIS -- rooms list -- list of rooms on the server
+    \item IJRO -- join to room incoming -- client has been connected to room
+    \item IDRO -- disconnect from room incoming -- client has been disconnected from room
+    \item ULIS -- users list -- list of clients (users) in room
     % in room painting
-	\item LORD -- layers order
-	\item SRES -- set resolution
+	\item LORD -- layers order -- new order of layers
+	\item SRES -- set resolution -- new resolution of a canvas
 	% other services
-	\item ICHA -- chat message incomming -- přišla chat zpráva
+	\item ICHA -- chat message incoming 
 \end{itemize}
 
 \section{Duplex commands}
 
 \begin{itemize}
     % user
-    \item SNIC -- set nick -- nastaví nick uživately
+    \item SNIC -- set nick -- set nick of client (user)
     % paint
-	\item PANT -- paint -- informuje o novém zakreslení/mazání ve vrstvě 
+	\item PANT -- paint -- information about particular layer update
 	\item SLAN -- set layer name
 \end{itemize}
 

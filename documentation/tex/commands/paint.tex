@@ -1,6 +1,6 @@
 \chapter{Paint}
 
-Tento příkaz informuje o aktualizaci kreslícího plátna. 
+This commands informs both server and client about update in particular layer.
 
 \subsection{List of parameters}
 
@@ -14,25 +14,19 @@ Tento příkaz informuje o aktualizaci kreslícího plátna.
 	\item UIMG -- update image				
 \end{itemize}
 
-\subsection{Server action}
-
-Server zakreslí update na příslušné místo a podé rozešle the same update (paint) to all connected users.
-
-\subsection{Client action}
-
 \subsection{Detailed description of parameters}
 
 \subsubsection{Update type}
 
-Update type je typ updatu a obsahuje čtyřbytové neznaménkové celočíselné číslo udávající typ updatu. Může nabívat hodnot $0$ a $1$, kde $0$ reprezentuje přidávácí update a $1$ mazací.
+Update type is four bytes unsigned integer determining how this update should be applied. It could has value $0$ and $1$, where $0$ means \emph{add} and $1$ \emph{remove}.
 
-V případě přidávacího updatu se standartním (source over) algoritmem update nakreslí přes obrázek vrstvy. 
+In case of \emph{add} update ``source over'' compositing algorithm should be used (update is paint over/on current layer).
 
-V případě odebíracího updatu se jen mění velikost alpha kanálu jednotlivých pixelů updatované vrstvy. Výsledná alpha každého pixelu $D_{a}$ se spočítá jako $D_{a} = S_{a} \cdot P_{a}$ kde $S_{a}$ značí alphu pixelu v updatovacím obrázku a $P_{a}$ značí alphu v v obrázku vrstvy před updatem. Všechny alphy ve výpočtu nabívají hodnot $0$ až $1$, takže je před výpočtem potřeba je převést ze standartní podoby $0$ až $255$ na tyto dělením číslem $255$ a po výpočtu převést zpátky násobením.
+In case of \emph{remove} update it is the alpha channel (of pixels) which is affected. Resulting alpha of every pixel $D_{a}$ is counted as $D_{a} = S_{a} \cdot P_{a}$, where $S_{a}$ is alpha in update picture (received update data) and $P_{a}$ is original alpha (in layer before update). Mentioned equation considers $0$ as no transparency and $1$ as full transparency with linear transition ($0.5$ is half-transparency). 
 
 \subsubsection{Update ID}
 
-Obsahuje čtyřbytové neznaménkové celé číslo, které identifikuje tento update.
+Four bytes unsigned integer representing ID of the update.
 
 \subsubsection{Layer ID}
 
@@ -52,4 +46,4 @@ Obsahuje čtyřbytové neznaménkové celé číslo, které udává Y souřadnic
 
 \subsubsection{Update image}
 
-Viz část specifikaci \ref{connection.data_types.image}.
+See specification in \ref{connection.data_types.image}.
