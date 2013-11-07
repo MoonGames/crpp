@@ -1,7 +1,8 @@
 \part{Connection}
 \label{connection}
 
-Vlastní protokol je rozdělen do dvou vzájemně nezávislých vrstev. To umožňuje oddělení funkcionality aplikačního síťového protokolu, přes který se posílají data, a vlastní datové struktury. Na obrázku \ref{connection.pictures.protocol_layers} jsou ilustrovány vrstvy protokolu.
+The protocol is divided to two mutually independent layers. That structure separates connection and data transfer from protocol sense and data representation. Protocol layers are illustrated on figure \ref{connection.pictures.protocol_layers}.
+
 
 \begin{figure}[h]
   \centering
@@ -10,30 +11,30 @@ Vlastní protokol je rozdělen do dvou vzájemně nezávislých vrstev. To umož
   \label{connection.pictures.protocol_layers}
 \end{figure}
 
-Vrchní vrstva předává spodní vrstvě monolitické bloky dat, které spodní vrstva dopraví vrchní vrstvě na druhé straně spojení. Vrchní vrstva je popsána v části \ref{up_layer} a spodní v části \ref{down_layer};
+Top layer interchanges monolithic data chunks with bottom layer. Bottom layer deliver this data to the up layer on other side of connection. Top layer is described on \ref{up_layer} and bottom layer is described on \ref{down_layer}.
 
 \chapter{Data types}
 \label{connection.data_types}
 
-Pokud není uvedeno jinak, tak všechny celočíselné hodnoty jsou bezeznaménkové.
+If it is not say otherwise all integers are unsigned.
 
 \section{Unsigned integers}
 \label{connection.data_types.unsigned_integer}
 
-Každý bit s hodnotou $1$ reprezentuje číslo $2^{p}$. Kde $p$ je pozice bitu (poslední bit -- v textu nejpravější -- posloupnosti má pozici $0$). Bity s hodnotou $0$ jsou rovny $0$. Rovnice \ref{equation.unsigned-integers-sum} udává hodnotu čísla.
+Every bit of value $1$ represents number $2^{p}$, where $p$ is bit position in big-endian notation. $0$ bits represent $0$. The value of integer is than sum of all bits. Equation \ref{equation.unsigned-integers-sum} is specifying number value.
 
 \begin{equation}
 \label{connection.equations.unsigned_integer}
 \sum_{p = 0}^{n - 1} b_p 2^p
 \end{equation}
 
-kde $p$ je pozice bitu (poslední ma hodnotu $0$, pak roste směrem k předcházejícím), $n$ je celkový počet bitů reprezentujících číslo, $b_p$ je hodnota bitu ($0$ nebo $1$) na pozici $p$.
+$p$ is bit position (the last has value $0$, than value is increasing by step $1$), $n$ is count of bits representing the number, $b_p$ is bit value($0$ or $1$) on position $p$.
 
-Například posloupnost $00001010$ má hodnotu $10$ ($2^1 + 2^3$).
+For example sequence $00001010$ has value $10$ ($2^1 + 2^3$).
 
 \section{Signed integers}
 
-Hodnota znaménkového celého čísla je součet čísel $a$ a $b$ (tedy ${value} = a + b$). 
+Hodnota znaménkového celého čísla je součet čísel $a$ and $b$ (it is ${value} = a + b$). 
 
 Hodnotu proměnné $a$ uručje vzorec $a = -2^{n - 1} \cdot f$, kde $n$ je počet bitů reprezentujících číslo a $f$ první bit ($0$ or $1$).
 
@@ -43,19 +44,19 @@ Příklad: číslo reprezentované bity $1011$ má hodnotu $-5$ ($a = -2^3 \cdot
 
 \section{Floating point numbers}
 
-Reálná čísla jsou reprezentována podle standardu IEEE 754 ve 32 bitech.
+Real number are used in meaning of standard IEEE 754 with 32 bites.
 
 \section{Logical value (booleans)} 
 
-Logické hodnoty (boolean) jsou reprezentovány jedním bytem, kde samé nuly ($00000000$) reprezentují hodnotu \emph{false} a hodnota jedna ($00000001$) reprezentuje hodnotu \emph{true}. Ostatní hodnoty jsou považovány za nevalidní.
+Logical values (boolean) are represented by one byte, where full zeros ($00000000$) means \emph{false} and value one ($00000001$) represents \emph{true}. Every other value is considered as invalid.
 
 \section{Strings}
 
-Veškerý text (řetězce zanků) je kódován jako UTF-8. V některých případech jako posloupnost ASCII znaků, to je ovšem vždy uvedeno. Všude je rozlišováno mezi malými a velkými písmeny (case sensitive).
+If it is not specified otherwise text (characters string) is coded by UTF-8 (Unicode). In several cases ASCII is use instead. Protocol is case sensitive. 
 
 \section{Image}
 \label{connection.data_types.image}
 
-Binární data PNG obrázku, viz \url{http://www.w3.org/Graphics/PNG/}. PNG obrázek je specifikován standardem ISO/IEC 15948:2003 (E), viz \url{http://www.w3.org/TR/PNG/}.
+Every image is represented as binary data of PNG \url{http://www.w3.org/Graphics/PNG/}. PNG image is specified by standard ISO/IEC 15948:2003 (E), see \url{http://www.w3.org/TR/PNG/}.
 
-Obrázek je vždy PNG se čtyřmi kanály ARGB (alpha, red, green, blue) a osmibitovou hloubkou na kanál (takže 32 bitů na pixel).
+In all cased ARGB PNG is used (four 8 bites channels: alpha -- transparency, red, green, blue), that is 32 deep.
